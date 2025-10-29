@@ -1,0 +1,670 @@
+/* =========================
+   JORA — Estilos Base y Variables Globales
+   ========================= */
+
+:root{
+  --color-primary: #facf73;       /* Amarillo Jora */
+  --color-secondary: #a3654e;     /* Marrón Jora */
+  --color-black: #000000;
+  --color-text: #1b1b1b;
+  --color-bg: #F0F0F0;            /* Gris más notable */
+  --color-bg-accent: #FFF5DD;     /* Amarillo más intenso */
+  --surface: #ffffff;             /* Blanco para tarjetas */
+
+  --header-h: 130px;
+  --header-h-scrolled: 100px;
+  --header-bg-alpha: 0.80;
+
+  /* --- MODIFICACIÓN TIPOGRAFÍA --- */
+  --font-1: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; /* Cuerpo */
+  --font-2: 'Merriweather', serif; /* Encabezados */
+  --font-3: 'Poppins', Arial, sans-serif; /* Navegación, Botones */
+  /* --- FIN MODIFICACIÓN TIPOGRAFÍA --- */
+
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --shadow-1: 0 4px 16px rgba(0,0,0,.08);
+  --shadow-2: 0 6px 18px rgba(0,0,0,.12);
+}
+
+/* =========================
+   Reset y Estilos Globales
+   ========================= */
+*{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+
+body{
+  background-color: var(--color-bg); /* Fondo base gris */
+  margin: 0;
+  padding-top: var(--header-h);
+  font-family: var(--font-1);
+  color: var(--color-text);
+  overflow-x: hidden;
+}
+img{ 
+    max-width: 100%; 
+    height: auto; 
+    display: block; 
+    object-fit: cover; /* Asegura que la imagen no se estire */
+    /* --- MODIFICACIÓN object-position (Todas al Centro por defecto) --- */
+    object-position: center center;
+}
+a{ color: var(--color-secondary); text-decoration: none; }
+a:hover{ text-decoration: underline; text-underline-offset: 3px; }
+.container{ width: min(1200px, 92%); margin: 0 auto; }
+.section{ padding: 60px 0; }
+
+/* Fondos alternados para secciones CON PATRONES (Ahora con PNG) */
+.section-bg-light {
+  background-color: var(--color-bg); /* Gris */
+  background-image: url('../imagenes/patron-comida.png');
+  background-repeat: repeat;
+  background-size: 900px 900px;
+  background-position: center center;
+  background-attachment: scroll;
+}
+.section-bg-accent {
+  background-color: var(--color-bg-accent); /* Amarillo */
+  background-image: url('../imagenes/patron-hojas.png');
+  background-repeat: repeat;
+  /* --- MODIFICACIÓN: cover para mantener la forma del PNG --- */
+  background-size: cover; 
+  /* --- FIN MODIFICACIÓN --- */
+  background-position: center center;
+  background-attachment: scroll;
+}
+
+h1, h2, h3 { letter-spacing: 0.03em; line-height: 1.35; }
+h1{ font-family: var(--font-2); font-size: clamp(1.8rem, 2.6vw, 3rem); }
+h2, .reserva-title { font-family: var(--font-2); font-size: clamp(1.4rem, 2vw, 2.2rem); margin: 0 0 12px; font-weight: 700; } /* FontWeight 700 para Merriweather */
+h3{ font-family: var(--font-2); font-size: clamp(1.1rem, 1.4vw, 1.3rem); }
+p, li { line-height: 1.7; letter-spacing: 0.01em; }
+.reserva-card-simple p { line-height: revert; letter-spacing: revert; }
+
+
+/* =========================
+   Header (Dinámico al Scroll)
+   ========================= */
+.site-header{ position: fixed; inset: 0 0 auto 0; z-index: 1000; height: var(--header-h); background: var(--surface); box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; transition: height .3s ease, background .3s ease, box-shadow .3s ease, backdrop-filter .3s ease; }
+.site-header.scrolled{ height: var(--header-h-scrolled); background: rgba(250,207,115, var(--header-bg-alpha)); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.site-header .container{ width: 100%; max-width: none; margin: 0; padding: 0 16px 0 8px; }
+
+/* --- MODIFICACIÓN NAV (Layout de 3 columnas) --- */
+.header-inner{ 
+    position: relative; 
+    display: grid; /* Cambiamos a Grid */
+    grid-template-columns: 1fr auto 1fr; /* Izquierda | Logo | Derecha */
+    align-items: center; 
+    height: 100%; 
+}
+.logo{ 
+    position: relative; /* Quitado Absolute */
+    left: auto;
+    top: auto;
+    transform: none;
+    margin: 0; 
+    grid-column: 2 / 3; /* Logo al centro */
+    justify-self: center;
+}
+/* --- FIN MODIFICACIÓN NAV --- */
+
+/* ================================================= */
+/* TAMAÑO DEL LOGO AUMENTADO (Para 130px de header) */
+/* ================================================= */
+.logo img{ 
+    height: 100px; 
+    width: auto; 
+    display: block; 
+    transition: height .3s ease; 
+}
+.site-header.scrolled .logo img { 
+    height: 80px; 
+    width: auto;
+}
+/* ================================================= */
+
+
+/* --- MODIFICACIÓN NAV (Estilos Desktop) --- */
+.primary-nav-desktop {
+    display: flex;
+    align-items: center; 
+}
+.primary-nav-desktop.nav-left {
+    grid-column: 1 / 2; /* Nav Izquierda */
+    justify-self: end; /* Alinea la nav a la derecha (cerca del logo) */
+}
+.primary-nav-desktop.nav-right {
+    grid-column: 3 / 4; /* Nav Derecha */
+    justify-self: start; /* Alinea la nav a la izquierda (cerca del logo) */
+}
+
+/* ================================================= */
+/* ¡MODIFICACIÓN: MÁS SEPARACIÓN ENTRE ITEMS! */
+/* ================================================= */
+.primary-nav-desktop ul{ 
+    display: flex; 
+    align-items: center;
+    gap: 36px; /* Aumentado de 24px a 36px */
+    list-style: none; 
+    padding: 0; 
+    margin: 0 20px; 
+}
+.primary-nav-desktop a{ 
+    font-family: var(--font-3); 
+    font-weight: 600; /* Reducido de 700 para Poppins */
+    line-height: 1; 
+    font-size: clamp(1rem, 1.2vw, 1.15rem); 
+    letter-spacing: 0.02em; /* Reducido para que se vea mejor */
+    color: var(--color-black); 
+    padding: 6px 6px; 
+    transition: color .3s, opacity .3s, font-size .3s ease, letter-spacing .3s ease; 
+}
+.site-header.scrolled .primary-nav-desktop a { 
+    font-size: clamp(.95rem, 1vw, 1.05rem); 
+    letter-spacing: normal; 
+}
+.primary-nav-desktop a:hover{ 
+    color: var(--color-secondary); 
+    text-decoration: underline; 
+    text-underline-offset: 4px; 
+    opacity: .9; 
+}
+/* --- FIN MODIFICACIÓN NAV --- */
+
+/* --- MODIFICACIÓN NAV (Nav Móvil Oculta) --- */
+.primary-nav-mobile {
+    display: none !important;
+}
+/* --- FIN MODIFICACIÓN NAV --- */
+
+/* ... (El resto del header que no se modifica) ... */
+
+.menu-toggle{ 
+    position: absolute; 
+    top: 50%; 
+    right: 20px; 
+    transform: translateY(-50%); 
+    border: 0; 
+    background: transparent; 
+    cursor: pointer; 
+    padding: 6px; 
+    width: 36px; 
+    height: 28px; 
+    z-index: 1100; 
+    visibility: hidden; 
+    pointer-events: none; 
+    opacity: 0;
+    
+    /* --- MODIFICACIÓN NAV --- */
+    grid-column: 3 / 4; /* Lo pone a la derecha en el grid */
+    justify-self: end; /* Lo pega al borde derecho */
+    /* --- FIN MODIFICACIÓN NAV --- */
+}
+.menu-bar{ position: absolute; left: 50%; transform: translateX(-50%); width: 22px; height: 4px; background: var(--color-black); border-radius: 50px; transition: transform .25s ease, opacity .2s ease, top .25s ease, background .25s ease; }
+.menu-bar:nth-child(1){ top: 0; } .menu-bar:nth-child(2){ top: 50%; transform: translate(-50%, -50%); } .menu-bar:nth-child(3){ bottom: 0; }
+.menu-toggle.is-open .menu-bar:nth-child(1){ top: 50%; transform: translate(-50%, -50%) rotate(45deg); } .menu-toggle.is-open .menu-bar:nth-child(2){ opacity: 0; } .menu-toggle.is-open .menu-bar:nth-child(3){ bottom: auto; top: 50%; transform: translate(-50%, -50%) rotate(-45deg); }
+body.menu-open .menu-toggle .menu-bar{ background: var(--color-black); }
+
+/* =========================
+   Hero / Carrusel
+   ========================= */
+.hero{ background: #000; }
+.carousel{ position: relative; width: 100%; aspect-ratio: 15/6; overflow: hidden; isolation: isolate; }
+.slides{ position: relative; width: 100%; height: 100%; }
+.slide{ position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity .25s ease-in-out; }
+.slide.active{ opacity: 1; z-index: 1; }
+.slide img{ width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.prev, .next{ position: absolute; top: 50%; transform: translateY(-50%); z-index: 3; width: 42px; height: 42px; border-radius: 999px; border: 0; background: rgba(0,0,0,.55); color: #fff; font-size: 18px; line-height: 42px; cursor: pointer; display: grid; place-items: center; box-shadow: 0 4px 10px rgba(0,0,0,.25); }
+.prev{ left: 16px; } .next{ right: 16px; }
+.prev:hover, .next:hover{ background: rgba(0,0,0,.7); }
+.slider-dots{ position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; align-items: center; gap: 10px; }
+.dot{ width: 14px; height: 14px; border-radius: 999px; border: 2px solid #fff; background: rgba(255,255,255,.6); cursor: pointer; }
+.dot.active{ background: #fff; }
+.hero-address{ position: absolute; left: 16px; bottom: 16px; z-index: 2; background: rgba(0,0,0,.45); color: #fff; padding: 12px 16px; border-radius: var(--radius-md); font-size: clamp(1rem, 1.5vw, 1.1rem); backdrop-filter: blur(4px); text-align: left; }
+.address-line { font-weight: 600; color: #ffffff; display: inline-block; margin-bottom: 4px; }
+.hero-address a{ color: var(--color-primary); font-weight: 600; text-decoration: none; }
+.hero-address a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* =========================
+   Bloque Dual (Platos + Eventos CTA)
+   ========================= */
+.dual-focus-section { padding-top: 40px; padding-bottom: 40px;}
+.container-wide { width: min(1600px, 98%); }
+.dual-layout-container { display: grid; grid-template-columns: 2.5fr 1fr; gap: 28px; align-items: stretch; }
+.dual-card { background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-1); padding: 28px; display: flex; flex-direction: column; }
+.card-platos { display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px; align-items: start; }
+.card-platos .platos-texto h2 { text-align: center; color: var(--color-secondary); }
+.card-platos .platos-texto .section-desc { font-size: 1.25rem; line-height: 1.6; text-align: justify; font-weight: 500; }
+.platos-opciones{ list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 22px; align-items: center; justify-content: space-around; height: 100%; }
+.platos-opciones a{ position: relative; font: 500 clamp(1.15rem, 2.1vw, 1.45rem) var(--font-3); color: var(--color-black); letter-spacing: 0.04em; text-align: center; text-decoration: none; transition: color .3s ease; }
+.platos-opciones a:hover, .platos-opciones a:focus{ color: var(--color-secondary); }
+.opcion-descargar a { background: var(--color-secondary); color: #fff !important; padding: 10px 20px; border-radius: 50px; font-weight: 600; transition: background 0.3s, transform 0.3s; }
+.opcion-descargar a:hover { background: var(--color-primary); color: var(--color-black) !important; text-decoration: none; transform: scale(1.05); }
+.opcion-descargar { margin-top: 16px; margin-bottom: 16px; }
+.platos-fotos{ aspect-ratio: 1 / 1; display: grid; grid-template-columns: 1fr; grid-template-rows: auto; gap: 6px; align-items: stretch; justify-items: stretch; transition: grid-template-columns .32s ease, grid-template-rows .32s ease; }
+.platos-fotos .pb{ position: relative; margin: 0; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-1); transition: box-shadow .25s ease, border-radius .25s ease, opacity .25s ease; min-width: 0; min-height: 0; }
+.platos-fotos .plato-2, .platos-fotos .plato-3, .platos-fotos .plato-4 { display: none; }
+.platos-fotos .pb img{ width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform 0.3s ease; }
+.platos-fotos .pb:hover img { transform: scale(1.05); }
+@media (min-width: 601px){ .platos-fotos { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; max-width: none; margin: 0; } .platos-fotos .plato-2, .platos-fotos .plato-3, .platos-fotos .plato-4 { display: block; } }
+@media (min-width: 901px){ /* Lógica Highlight JS */ .platos-fotos.hl-1{ --c1: 1fr; --c2: 0fr; --r1: 1fr; --r2: 0fr; } .platos-fotos.hl-2{ --c1: 0fr; --c2: 1fr; --r1: 1fr; --r2: 0fr; } .platos-fotos.hl-3{ --c1: 1fr; --c2: 0fr; --r1: 0fr; --r2: 1fr; } .platos-fotos.hl-4{ --c1: 0fr; --c2: 1fr; --r1: 0fr; --r2: 1fr; } .platos-fotos.hl-1, .platos-fotos.hl-2, .platos-fotos.hl-3, .platos-fotos.hl-4{ gap: 0; grid-template-columns: var(--c1, 1fr) var(--c2, 1fr); grid-template-rows: var(--r1, 1fr) var(--r2, 1fr); } .platos-fotos.hl-1 .pb[data-id="1"], .platos-fotos.hl-2 .pb[data-id="2"], .platos-fotos.hl-3 .pb[data-id="3"], .platos-fotos.hl-4 .pb[data-id="4"]{ z-index: 2; box-shadow: 0 16px 34px rgba(0,0,0,.28); } .platos-fotos.hl-1 .pb:not([data-id="1"]), .platos-fotos.hl-2 .pb:not([data-id="2"]), .platos-fotos.hl-3 .pb:not([data-id="3"]), .platos-fotos.hl-4 .pb:not([data-id="4"]){ opacity: 0; pointer-events: none; display: block; } }
+.card-eventos { justify-content: space-between; }
+.card-eventos .cta-imagen img { 
+    width: 100%; 
+    height: 240px; 
+    object-fit: cover; 
+    border-radius: var(--radius-md); 
+    margin-bottom: 20px; 
+    /* --- MODIFICACIÓN object-position (Escenario Perfecto/Eventos) --- */
+    object-position: top center;
+}
+.card-eventos .cta-titulo { font-family: var(--font-2); font-size: clamp(1.4rem, 2vw, 1.9rem); color: var(--color-secondary); margin-bottom: 12px; line-height: 1.2; }
+.card-eventos .cta-desc { font-size: 1.05rem; line-height: 1.6; color: var(--color-text); margin-bottom: 28px; text-align: center; font-weight: 500; }
+.btn-cta { display: block; width: fit-content; margin: 0 auto; background: var(--color-primary); color: var(--color-black); padding: 14px 28px; border-radius: 50px; font-family: var(--font-3); font-weight: 600; font-size: 1.05rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; box-shadow: var(--shadow-1); transition: transform .3s ease, box-shadow .3s ease; text-align: center; }
+.btn-cta:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); text-decoration: none; }
+
+/* =========================
+   Divisores de Sección con Título
+   ========================= */
+.section-divider {
+  position: relative;
+  width: 100%;
+  line-height: 0; /* Asegura que el contenedor tenga la altura de la imagen */
+  padding: 0;
+  margin: 0;
+}
+.divider-bg-light { background-color: var(--color-bg); } /* Color Gris */
+.divider-bg-accent { background-color: var(--color-bg-accent); } /* Color Amarillo */
+
+.divider-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.divider-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--color-secondary); /* Título marrón */
+  font-family: var(--font-2);
+  font-size: clamp(1.8rem, 4vw, 2.8rem); /* Tamaño grande */
+  font-weight: 700;
+  white-space: nowrap; /* Evita que se parta en dos líneas */
+}
+
+
+/* =========================
+   Secciones Info Adicional (Horario, Shows, etc.)
+   ========================= */
+.info-section { padding: 60px 0; }
+.info-grid-3 { display: grid; grid-template-columns: 1.2fr 2fr 1.2fr; gap: 28px; align-items: stretch; }
+.info-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: stretch; }
+.info-card { background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-1); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.info-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-2); }
+.info-card-image-wrapper { position: relative; overflow: hidden; }
+.layout-image-top-padded .info-card-image-wrapper { padding: 24px 24px 0; }
+.layout-image-top-padded img { 
+    width: 100%; 
+    height: 200px; 
+    object-fit: cover; 
+    display: block; 
+    border-radius: var(--radius-md); 
+}
+
+/* --- MODIFICACIÓN object-position (PetFriendly) --- */
+.card-petfriendly img {
+    object-position: top center;
+}
+/* --- FIN MODIFICACIÓN object-position --- */
+
+
+.layout-image-top-padded .info-card-content { padding: 24px; text-align: center; display: flex; flex-direction: column; flex-grow: 1; }
+.layout-image-side { flex-direction: row; align-items: stretch; }
+.layout-image-side .info-card-image-wrapper { width: 45%; flex-shrink: 0; height: auto; display: flex; flex-direction: column; justify-content: center; padding: 0; border-radius: 0; }
+.layout-image-side .info-card-image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+.layout-image-side .info-card-content { width: 55%; flex-shrink: 0; padding: 32px; text-align: left; display: flex; flex-direction: column; justify-content: center; }
+.card-shows .info-card-image-wrapper { display: flex; flex-direction: column; gap: 0; padding: 0; justify-content: center; }
+.card-shows .info-card-image-wrapper img { border-radius: 0; width: 100%; height: auto; object-fit: cover; min-height: 0; flex: 1; aspect-ratio: 16 / 7; }
+.info-card h3 { font-family: var(--font-2); font-size: clamp(1.6rem, 2.3vw, 2.2rem); color: var(--color-secondary); margin-top: 0; margin-bottom: 12px; letter-spacing: 0.04em; }
+.info-card p, .info-card li { font-size: 1.15rem; font-weight: 500; letter-spacing: 0.04em; line-height: 1.65; color: var(--color-text); margin-bottom: 16px; }
+.info-card .show-details p, .info-card .horario-list p { font-size: 1.05rem; margin-bottom: 8px; font-weight: 500; letter-spacing: 0.03em; }
+.info-card .horario-list p strong { color: var(--color-secondary); }
+.btn-info { background: var(--color-primary); color: var(--color-black); padding: 14px 28px; font-weight: 600; border-radius: 50px; text-decoration: none; font-family: var(--font-3); margin-top: auto; transition: background 0.3s, color 0.3s, transform 0.3s; }
+.btn-info:hover { background: var(--color-secondary); color: #fff; transform: scale(1.03); text-decoration: none; }
+.layout-image-top-padded .btn-info { align-self: center; }
+.layout-image-side .btn-info { align-self: flex-start; }
+
+/* =========================
+   Sección de Reserva
+   ========================= */
+.reserva { text-align: center; padding: 80px 0; }
+
+/* --- MODIFICACIÓN 3 (Tarjeta de Reserva) --- */
+.reserva .container {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+  padding: 40px;
+  max-width: 900px; /* Hacemos la tarjeta un poco más angosta */
+}
+/* --- FIN MODIFICACIÓN 3 --- */
+
+.reserva-title { font-family: var(--font-2); font-size: clamp(1.8rem, 3vw, 2.6rem); color: var(--color-secondary); margin-bottom: 10px; }
+.reserva-desc { font-family: var(--font-1); font-size: 1.1rem; color: var(--color-text); margin-bottom: 30px; letter-spacing: 0.02em; }
+.reserva-opciones { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; justify-items: center; max-width: 700px; margin: 0 auto; }
+.reserva-card { background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-1); text-decoration: none; color: var(--color-text); transition: transform 0.3s ease, box-shadow 0.3s ease; width: 100%; max-width: 220px; }
+.reserva-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-2); }
+.reserva-card-simple { padding: 24px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
+.reserva-icon-img { width: 50px; height: 50px; object-fit: contain; margin-bottom: 0; }
+.reserva-card-simple h3 { font-family: var(--font-2); color: var(--color-secondary); margin-bottom: 0; font-size: 1.1rem; }
+
+/* =========================
+   Footer (con Formulario y Libro)
+   ========================= */
+.site-footer-dark { background: #111; color: #eaeaea; padding: 40px 0 16px; font-size: 0.9rem; }
+.footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1.2fr; gap: 32px; align-items: start; }
+.footer-logo { width: 160px; margin-bottom: 8px; }
+.footer-info p { line-height: 1.5; margin-bottom: 8px; color: #ddd; font-size: 0.9rem; }
+.footer-info h4 { color: var(--color-primary); font-family: var(--font-2); margin: 14px 0 6px; font-size: 1rem; }
+.footer-contact a { color: #fff; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; }
+.footer-contact a:hover { color: var(--color-primary); }
+.footer-social { display: flex; gap: 10px; margin-top: 4px; }
+.footer-social img { width: 24px; height: 24px; filter: brightness(0) invert(1); transition: filter 0.25s ease; }
+.footer-social a:hover img { filter: brightness(1.3) sepia(1) hue-rotate(-20deg) saturate(2); }
+.footer-nav h4 { color: var(--color-primary); font-family: var(--font-2); margin-bottom: 8px; font-size: 1rem; }
+.footer-nav ul { list-style: none; padding: 0; margin: 0 0 10px; }
+.footer-nav a { color: #ccc; text-decoration: none; display: inline-block; margin-bottom: 4px; transition: color 0.3s ease; font-size: 0.9rem; }
+.footer-nav a:hover { color: var(--color-primary); }
+.footer-legal li { font-size: 0.85rem; }
+.footer-libro { width: 60px; height: auto; display: block; margin: 4px 0 0; }
+.footer-legal li:has(.footer-libro) { display: flex; flex-direction: column; align-items: flex-start; }
+.footer-contact-form h4 { color: var(--color-primary); font-family: var(--font-2); margin-bottom: 12px; font-size: 1rem; }
+.footer-contact-form .form-group { margin-bottom: 12px; }
+.footer-contact-form label { display: block; font-size: 0.85rem; color: #ccc; margin-bottom: 4px; text-align: left; }
+.footer-contact-form input[type="text"], .footer-contact-form input[type="email"], .footer-contact-form textarea { width: 100%; padding: 8px 10px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.05); border-radius: 6px; color: #fff; font-family: var(--font-1); font-size: 0.9rem; }
+.footer-contact-form textarea { resize: vertical; }
+.btn-footer-submit { background: var(--color-primary); color: var(--color-black); border: none; padding: 10px 20px; border-radius: 50px; font-family: var(--font-3); font-weight: 600; cursor: pointer; transition: background 0.3s, color 0.3s; display: block; margin: 10px auto 0; }
+.btn-footer-submit:hover { background: #fff; color: var(--color-black); }
+.footer-bottom { margin-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.footer-bottom p { margin: 0; color: #aaa; font-size: 0.85rem; }
+
+/* =========================
+   Responsive General y Media Queries
+   ========================= */
+
+@media (prefers-reduced-motion: reduce){ .slide, .menu-bar, .ev-block, .ev-intro-heading-group { transition: none !important; } }
+
+@media (max-width: 1000px) {
+  /* Bloque Dual */
+  .dual-layout-container { grid-template-columns: 1fr; }
+  .card-platos { grid-template-columns: 1fr; }
+  /* Secciones Info (Apiladas) */
+  .info-grid-3, .info-grid-2 { grid-template-columns: 1fr; gap: 28px; }
+  .info-card { margin-bottom: 28px; }
+  .info-card:last-child { margin-bottom: 0; }
+  /* Layout Imagen al Costado pasa a Imagen Arriba */
+  .layout-image-side { flex-direction: column; }
+  .layout-image-side .info-card-image-wrapper { width: 100%; height: auto; padding: 10px; }
+  .layout-image-side .info-card-image-wrapper img { height: 250px; border-radius: var(--radius-md); }
+  .card-shows .info-card-image-wrapper { flex-direction: row; gap: 10px; }
+  .card-shows .info-card-image-wrapper img { height: 200px; flex: 1; aspect-ratio: auto; }
+  .layout-image-side .info-card-content { width: 100%; padding: 24px; text-align: center; }
+  .layout-image-side .info-card-content h3, .layout-image-side .info-card-content p, .layout-image-side .info-card-content li { text-align: center; }
+  
+  /* --- MODIFICACIÓN 2 (Alineación de botones) --- */
+  /* Esta regla ahora es más específica para sobreescribir la de desktop */
+  .layout-image-side .btn-info { 
+    align-self: center; 
+  }
+  /* --- FIN MODIFICACIÓN 2 --- */
+}
+
+@media (max-width: 900px) {
+ /* Header Móvil (Fijo Blanco -> Amarillo) */
+  body { padding-top: var(--header-h-scrolled); }
+  .site-header { height: var(--header-h-scrolled); background: var(--surface); box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; transition: background .3s ease, box-shadow .3s ease, backdrop-filter .3s ease; }
+  .site-header.scrolled { height: var(--header-h-scrolled); background: rgba(250, 207, 115, var(--header-bg-alpha)); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  
+  /* --- MODIFICACIÓN NAV (Header Móvil) --- */
+  .header-inner {
+      display: flex; /* Volvemos a flex */
+      align-items: center;
+      justify-content: center; /* Centramos el logo */
+  }
+  .logo {
+      grid-column: auto; /* Reseteamos grid */
+      justify-self: auto;
+      position: absolute; /* Volvemos a P. Absolute para centrarlo */
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%); /* Centrado absoluto */
+  }
+  /* --- FIN MODIFICACIÓN NAV --- */
+  
+  /* ================================================= */
+  /* TAMAÑO DEL LOGO (MÓVIL)! */
+  /* ================================================= */
+  .logo img, .site-header.scrolled .logo img { 
+      height: 45px; /* TAMAÑO FIJO PARA MÓVIL */
+      width: auto; 
+      transition: none; 
+  }
+  
+  /* --- MODIFICACIÓN NAV (Ocultar nav desktop) --- */
+  .primary-nav-desktop { 
+      display: none !important; 
+  }
+  /* --- FIN MODIFICACIÓN NAV --- */
+  
+  .menu-toggle{ 
+      visibility: visible; 
+      pointer-events: auto; 
+      opacity: 1; 
+      z-index: 2100; 
+      display: block;
+      grid-column: auto; /* Reseteamos grid */
+      justify-self: auto;
+      position: absolute; /* Lo volvemos a posicionar */
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+  }
+  
+  /* --- MODIFICACIÓN NAV (Estilos Overlay Móvil) --- */
+  /* Apuntamos a la nueva clase .primary-nav-mobile */
+  nav.primary-nav-mobile { 
+      position: fixed !important; 
+      inset: 0 !important; 
+      width: 100vw; 
+      height: 100dvh; 
+      z-index: 2000; 
+      display: flex !important; 
+      align-items: center !important; 
+      justify-content: center !important; 
+      flex-direction: column !important; 
+      background: rgba(0,0,0,0.68) !important; 
+      backdrop-filter: blur(6px); 
+      -webkit-backdrop-filter: blur(6px); 
+      opacity: 0; 
+      pointer-events: none; 
+      transition: opacity .35s ease; 
+  }
+  nav.primary-nav-mobile.active{ 
+      opacity: 1; 
+      pointer-events: auto; 
+  }
+  nav.primary-nav-mobile ul{ 
+      margin: 0 !important; 
+      padding: 0 !important; 
+      list-style: none; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      gap: 28px; 
+  }
+  nav.primary-nav-mobile a{ 
+      display: inline-block; 
+      color: #fff !important; 
+      font-family: var(--font-2); 
+      font-weight: 700; 
+      font-size: clamp(1.5rem, 5vw, 2.2rem) !important; 
+      letter-spacing: 0.05em !important; 
+      text-decoration: none; 
+      transition: color .25s ease, transform .25s ease; 
+      padding: 6px 10px; 
+  }
+  nav.primary-nav-mobile a:hover{ 
+      color: var(--color-primary); 
+      transform: scale(1.05); 
+  }
+  /* --- FIN MODIFICACIÓN NAV --- */
+  
+  body.menu-open{ overflow: hidden; } body.menu-open::before{ display: none !important; }
+  .site-header .container{ padding-left: 8px; padding-right: 12px; }
+
+ /* Footer a 1 columna */
+  .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; }
+  .footer-info, .footer-nav, .footer-contact-form { margin: 0 auto; max-width: 400px; }
+  .footer-social { justify-content: center; }
+  .footer-contact-form label { text-align: center; }
+  .footer-legal li:has(.footer-libro) { align-items: center; }
+  .footer-libro { margin-left: auto; margin-right: auto; }
+}
+
+@media (max-width: 820px) {
+  /* Footer Bottom Apilado */
+  .footer-bottom { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 768px) {
+  /* Reducción Padding Secciones */
+  .section { padding: 60px 0; }
+}
+
+@media (max-width: 600px) {
+  /* --- MODIFICACIÓN 1 (Ocultar Platos Bandera) --- */
+  .platos-fotos {
+    display: none;
+  }
+  /* --- FIN MODIFICACIÓN 1 --- */
+  
+  /* Reserva Móvil */
+  .reserva { padding: 60px 0; }
+  
+  /* (Ajuste para Modificación 3) Padding de tarjeta reserva en móvil */
+  .reserva .container {
+    padding: 30px 24px;
+  }
+  
+  .reserva-opciones { gap: 16px; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); max-width: 95%; }
+  .reserva-card-simple { padding: 16px 10px; }
+  .reserva-icon-img { width: 35px; height: 35px; }
+  /* Layout info móvil */
+  .card-shows .info-card-image-wrapper { flex-direction: column; }
+  .card-shows .info-card-image-wrapper img { height: 150px; }
+
+  /* --- MODIFICACIÓN (Ocultar show2.webp en móvil) --- */
+  .card-shows .info-card-image-wrapper img:nth-child(2) {
+    display: none;
+  }
+  /* --- FIN MODIFICACIÓN --- */
+}
+@media (max-width: 520px){
+  .carousel{ aspect-ratio: 4/3; }
+  /* Layout info móvil pequeño */
+  .layout-image-side img { height: 200px; }
+}
+/* =========================
+   Divisores de Sección con Título (EstrategIA V4 - Limpia y Responsive)
+   ========================= */
+
+/* 1. Definimos las variables responsive en :root
+   (Puedes pegar esto arriba del todo en tu CSS si quieres,
+   o dejarlo aquí. Funcionará igual.) */
+:root {
+  /* MIN: 70px (móvil) | PREFERIDO: 10vw | MAX: 140px (escritorio) */
+  /* Hice los valores un poco más grandes, como pediste */
+  --divider-height: clamp(70px, 10vw, 140px);
+  --divider-half-height: calc(var(--divider-height) / 2);
+}
+
+/* 2. Estilos del DIVISOR (el contenedor .section-divider) */
+.section-divider {
+  position: relative;
+  z-index: 10; /* El divisor SIEMPRE va encima de las secciones */
+  line-height: 0;
+  height: var(--divider-height);
+  
+  /* A. Lo jalamos hacia arriba por la MITAD de su altura */
+  margin-top: calc(var(--divider-half-height) * -1);
+  
+  /* B. Y jalamos la sección de ABAJO hacia arriba por la OTRA MITAD */
+  margin-bottom: calc(var(--divider-half-height) * -1);
+}
+
+/* 3. Estilos del SVG (la ola de adentro) */
+.divider-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.divider-from-accent .divider-svg {
+  fill: var(--color-bg-accent); /* Relleno AMARILLO */
+}
+.divider-from-light .divider-svg {
+  fill: var(--color-bg); /* Relleno GRIS */
+}
+.section-divider.divider-flipped .divider-svg {
+  transform: scaleY(-1); /* Voltea el segundo divisor */
+}
+
+/* 4. Estilos del Título (H2) */
+.divider-title {
+  position: absolute;
+  top: 50%; /* Centrado perfecto */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--color-secondary);
+  font-family: var(--font-2);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* 5. ¡LA LÓGICA DE PADDINGS (CORREGIDA Y LIMPIA)! */
+
+/* Primero, le decimos a CUALQUIER sección que esté
+   al lado de un divisor que se ponga DETRÁS de él. */
+#platos.section-bg-accent,
+.section-divider + .section {
+    position: relative;
+    z-index: 5; /* Detrás del divisor (z-index: 10) */
+}
+
+/* A. Sección ANTES del 1er divisor (Platos)
+   padding-bottom = 60px (original) + mitad de la ola */
+#platos.section-bg-accent {
+    padding-bottom: calc(var(--divider-half-height) + 60px);
+}
+
+/* B. Sección DESPUÉS de un divisor (las dos secciones de abajo)
+   padding-top = 60px (original) + mitad de la ola */
+.section-divider + .section {
+    padding-top: calc(var(--divider-half-height) + 60px);
+}
+
+/* C. Sección ENTRE los dos divisores (la gris de Horarios)
+   TAMBIÉN necesita el padding-bottom (además del top de la regla B) */
+.section-bg-accent + .section-divider + .section-bg-light {
+    padding-bottom: calc(var(--divider-half-height) + 60px);
+}
+    
+/* D. La sección #reserva (gris) NO está después de un divisor,
+   así que su padding original de 80px (definido en .reserva)
+   se respeta. Solo le añadimos el z-index. */
+#reserva.section-bg-light {
+    position: relative;
+    z-index: 5;
+    /* No tocamos su padding, así que mantiene su 80px original */
+}
